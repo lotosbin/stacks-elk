@@ -1,0 +1,25 @@
+# https://docs.docker.com/compose/compose-file/
+version: '2'
+services:
+  logstash:
+    image: logstash:2.2
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./logstash.conf:/config.d/logstash.conf
+    links:
+      - elasticsearch
+    command: logstash -f /config.d/
+  kibana:
+    image: kibana
+    ports: 
+      - "5601:5601"
+    links:
+      - elasticsearch
+
+  elasticsearch:
+    image: elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
